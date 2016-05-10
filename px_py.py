@@ -5,7 +5,17 @@ import osr
 
 
 
-filePath = '/Users/chensiye/LT51190381991204BJC00/LT51190381991204BJC00_B1.TIF'
+filePath_1 = '/Users/chensiye/LT51190381991204BJC00/LT51190381991204BJC00_B1.TIF'
+filePath_2 = 'E:\研究生\项目\遥感图片\遥感数据\LT51190391996346CLT00\LT5119039199346CLT00_B1.TIF'
+
+def get_Transfor(xsize,ysize):
+	'''对得到的地理坐标转化成经纬度坐标'''
+	object_Long = osr.SpatialReference()
+	object_xy = osr.SpatialReference()
+	ct = osr.CoordinateTransformation(object_xy,object_Long)
+	Latitude,longitude,High = ct.TransformPoint(xsize,ysize)
+	return Latitude,longitude
+
 dataset = gdal.Open(filePath)
 
 adfGeoTransform = dataset.GetGeoTransform()
