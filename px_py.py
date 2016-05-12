@@ -27,10 +27,10 @@ def WGS84_wkt(Latitude,longitude,wkt):
 	object_Long.SetWellKnownGeogCS("WGS84")
 	ct = osr.CoordinateTransformation(object_Long,object_xy)
 	xsize,ysize,zsize = ct.TransformPoint(Latitude,longitude,0.0)
-	xsize = float(int(xsize+0.5))
-	ysize = float(int(ysize+0.5))
+	GeoX = float(int(xsize+0.5))
+	GeoY = float(int(ysize+0.5))
 	print ('经过转化的仿射坐标为(%s,%s)' %(xsize,ysize))
-	return xsize,ysize
+	return GeoX,GeoY
 
 def Geo_Points(FileX,FileY,GT):
 	GeoX = GT[0] + FileX * GT[1] + FileY * GT[2]
@@ -46,6 +46,8 @@ def File_points(GeoX,GeoY,GT):
  	print ('转化后的图像坐标为(%s,%s)' %(FileX,FileY))
  	return FileX,FileY
 
+
+"""
 '''测试，读取文件'''
 path_sys = os.path.abspath(os.path.dirname(sys.argv[0]))
 filePath_1 = '/Users/chensiye/LT51190381991204BJC00/LT51190381991204BJC00_B1.TIF'
@@ -87,7 +89,6 @@ file_rd_x,file_rd_y = File_points(rd_x,rd_y,adfGeoTransform)
 
 
 
-
 '''
 arrSlope = [] # 用于存储每个像素的（X，Y）坐标
 for i in range(nYSize):
@@ -99,4 +100,7 @@ for i in range(nYSize):
         row.append(col)
     arrSlope.append(row)
 
-print(len(arrSlope))'''	
+print(len(arrSlope))
+'''	
+
+"""
