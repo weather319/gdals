@@ -89,7 +89,7 @@ file_rd_x,file_rd_y = File_points(rd_x,rd_y,adfGeoTransform)
 
 
 
-'''
+
 arrSlope = [] # 用于存储每个像素的（X，Y）坐标
 for i in range(nYSize):
     row = []
@@ -101,6 +101,6 @@ for i in range(nYSize):
     arrSlope.append(row)
 
 print(len(arrSlope))
-'''	
+
 
 """
