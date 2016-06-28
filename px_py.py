@@ -19,6 +19,7 @@ def wkt_WGS84(xsize,ysize,wkt):
 	Latitude,longitude,High = ct.TransformPoint(xsize,ysize)
 	print ('经过转化的WGS84经纬度为(%s,%s)' %(Latitude,longitude))
 	return Latitude,longitude
+	
 '''把经纬度转化成平面直角坐标系统'''
 def WGS84_wkt(Latitude,longitude,wkt):
 	object_Long = osr.SpatialReference()
@@ -40,11 +41,11 @@ def Geo_Points(FileX,FileY,GT):
 
 def File_points(GeoX,GeoY,GT):
 	FileX = float((GeoX * GT[5] - GeoY * GT[2] -  GT[0] * GT[5] + GT[2] * GT[3]) /  (GT[1] * GT[5] - GT[2] * GT[4]))
- 	FileY = float((GeoX * GT[4] - GeoY * GT[1] -  GT[0] * GT[4] + GT[1] * GT[3]) /  (GT[2] * GT[4] - GT[1] * GT[5]))
- 	FileX = int(FileX+0.5)
- 	FileY = int(FileY+0.5)
- 	print ('转化后的图像坐标为(%s,%s)' %(FileX,FileY))
- 	return FileX,FileY
+	FileY = float((GeoX * GT[4] - GeoY * GT[1] -  GT[0] * GT[4] + GT[1] * GT[3]) /  (GT[2] * GT[4] - GT[1] * GT[5]))
+	FileX = int(FileX+0.5)
+	FileY = int(FileY+0.5)
+	print ('转化后的图像坐标为(%s,%s)' %(FileX,FileY))
+	return FileX,FileY
 
 
 """

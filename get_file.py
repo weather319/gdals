@@ -65,6 +65,17 @@ def read_wkt_GT(path):
 	else:
 		print ('路径出错')
 
+def save_wkt_GT(path):
+	wkt,GT = read_wkt_GT(path)
+	dir_path = os.path.abspath(os.path.dirname(path))
+	import pickle
+	with open(dir_path + '/WKT.pkl', 'wb') as f:
+		pickle.dump(wkt, f)
+	with open(dir_path + '/GT.pkl', 'wb') as f:
+		pickle.dump(GT, f)
+
+
+
 
 import sql
 import sqlite3
@@ -97,6 +108,8 @@ def retrieve_image_db(MapId):
 	except :
 		print ("读取数据库失败")
 		conn.close()
+
+
 
 
 

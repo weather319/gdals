@@ -30,15 +30,18 @@ def draw_map(path,coordinates):
 	'''得到RGB图像'''
 	for coord in coordinates:
 		image_rgb = draw_circel(image_rgb,coord,wkt,GT)
-	cv2.imwrite(path+'/rgb.jpg',image_rgb)
+	cv2.imwrite(path+'/rgb3.jpg',image_rgb)
 
 
-"""测试
-path = '/Users/chensiye/LT51190381991204BJC00'
-coordinates = [[120.21944,31.53968],[120.19067,31.51317],\
-			[120.19433,31.47633],[120.18796,31.43609],\
-			[120.18733,31.41117],[120.13117,31.50383],\
-			[120.18017,31.33833],[120.17062,31.24816]]
-
-draw_map(path,coordinates)
-"""
+"""测试"""
+if __name__ == "__main__":
+	path = '/Users/chensiye/LT51190381991204BJC00'
+	coordinates = [[120.21944,31.53968],[120.19067,31.51317],\
+				[120.19433,31.47633],[120.18796,31.43609],\
+				[120.18733,31.41117],[120.13117,31.50383],\
+				[120.18017,31.33833],[120.17062,31.24816]]
+	coords = [[120.58796963798811, 31.251981876166415]]
+	filelists = get_file.get_filelist(path)
+	get_file.save_wkt_GT(filelists[0])
+	#draw_map(path,coordinates)
+	#draw_map(path,coords)

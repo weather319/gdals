@@ -145,7 +145,9 @@ cv2.destroyAllWindows
 base=os.path.basename(picture_file)
 afile, ext = os.path.splitext(base)
 """
-
+(RiverId,StartTime,EndTime) = ('TH','1991-02-04','1991-02-05')
+MapId = 'LT51190381991204BJC00'
+db_path = '/Users/chensiye/mystuff/gdals/water_sensing.db'
 #path =  "../../../LT51190381991204BJC00/"
 path = "/Users/chensiye/LT51190381991204BJC00"
 filelist = get_filelist(path)
