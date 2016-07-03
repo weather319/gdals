@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import tensorflow.contrib.learn as skflow
+#import tensorflow.contrib.learn as skflow
 
 
 """
