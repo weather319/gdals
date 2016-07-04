@@ -16,7 +16,7 @@ import numpy as np
   
 #定义NeuralNetwork 神经网络算法  
 class NeuralNetwork:  
-	#初始化，layes表示的是一个list，eg[10,10,3]表示第一层10个神经元，第二层10个神经元，第三层3个神经元  
+	#初始化，layes表示的是一个list，eg[10,10,3]表示第一层10个神经元，第二层10个神经元，第三层3个神经元
 	def __init__(self, layers, activation='tanh'):  
 		""" 
 		:param layers: layes表示的是一个list,包含了每一层的神经元数目. 
@@ -94,15 +94,20 @@ class NeuralNetwork:
 
 
 if __name__ == '__main__':
- 	nn = NeuralNetwork(layers=[4,3,1])     # 网络结构: 2输入1输出,1个隐含层(包含2个结点)
- 
- 	X = np.array([[0, 0 ,0 ,0 ],           # 输入矩阵(每行代表一个样本,每列代表一个特征)
-                  [0, 1, 0 ,0 ],
+	nn = NeuralNetwork(layers=[4,3,2])     # 网络结构: 2输入1输出,1个隐含层(包含2个结点)
+
+	X = np.array([[0, 0 ,0 ,0 ],           # 输入矩阵(每行代表一个样本,每列代表一个特征)
+                  [0, 1, 0 ,1 ],
                   [1, 0, 1, 0],
-                  [1, 1, 1, 0]])
+                  [1, 1, 1, 1]])
 
-	Y = np.array([0, 1, 2, 3])      # 期望输出
+	#Y = np.array([[0, 1, 1, 1],
+	#			[0,1,1,1]])
 
+	Y = np.array([[0,0],
+				  [1,1],
+				  [1,1],
+				  [1,1]])
 	nn.fit(X, Y)                    # 训练网络 
 
 	print ('w:', nn.weights)          # 调整后的权值列表
