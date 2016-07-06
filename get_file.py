@@ -112,27 +112,22 @@ def retrieve_image_db(MapId):
 
 
 
+if __name__ == '__main__':
+	path = '/Users/chensiye/LT51190381991204BJC00'
+	filelists = get_filelist(path)
+	data = get_tifdata(filelists)
+	wkt,GT = read_wkt_GT(filelists[0])
 
-'''
-path = '/Users/chensiye/LT51190381991204BJC00'
-filelists = get_filelist(path)
-data = get_tifdata(filelists)
-wkt,GT = read_wkt_GT(filelists[0])
 
+	import cv2
+	image_path = "/Users/chensiye/mystuff/gdals/2.jpg"
+	image = cv2.imread(image_path)
+	MapId = "LT51190381991204BJC00"
+	img = retrieve_image_db(MapId) 
+	img = np.array(img[0])
+	img = img.reshape((image.shape))
 
-import cv2
-image_path = "/Users/chensiye/mystuff/gdals/2.jpg"
-image = cv2.imread(image_path)
-MapId = "LT51190381991204BJC00"
-#img_blob = buffer(image)
-#insert_image_db(MapId,image)
-img = retrieve_image_db(MapId) 
-img = np.array(img[0])
-img = img.reshape((image.shape))
-
-cv2.imshow("1",img)
-cv2.waitKey(0)
-cv2.destroyAllWindows
-
-'''
+	cv2.imshow("1",img)
+	cv2.waitKey(0)
+	cv2.destroyAllWindows
 

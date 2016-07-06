@@ -3,6 +3,7 @@
 import sqlite3
 import os
 import sys
+import datetime
 
 '''
 SQLite数据库是一款非常小巧的嵌入式开源数据库软件，也就是说
@@ -40,16 +41,37 @@ scroll()            --游标滚动
 
 '''
 
-path_sys = os.path.abspath(os.path.dirname(sys.argv[0]))
+class gdal_insql(object):
+    """所有对数据库的插入类，主要为几个表的插入"""
+    def __init__(self):
+        super(gdal_insql, self).__init__()
+        self.sql_path = os.path.abspath(os.path.dirname(__file__)) + "/../data/water_sensing.db"
 
-def get_conn(path="/Users/chensiye/mystuff/UI_2016.4.27/data/water_sensing.db"):
-    '''连接到数据库，如果文件路径存在则连接，如果不存在，则报错'''
-    if os.path.exists(path) and os.path.isfile(path):
-        conn = sqlite3.connect(path)
-        print('成功连接到[{}]的数据库'.format(path))
-        return conn
-    else:
-        print('打开错误，请检查路径')
+    def change_sqlpath(self,path):
+        self.sql_path = path
+        
+    def mapdate_extract(self,MapId):
+        year = int(MapId[9:13])
+        day = int(MapId[13:16])
+        day_begin = datetime.datetime(year,1,1)
+        day_end = str(day_begin + datetime.timedelta(days =day-1))
+        print day_end
+        month = int(day_end[5:7])
+        days = int (day_end[8:10])
+        #print ("遥感地图的时间为[{}]年".format(year)+"[{}]月".format(month)+"[{}]日".format(days))
+        print ("遥感地图的时间为%d年%d月%d日" %(year,month,days))
+        return year,month,days
+
+    def get_conn(self):
+        '''连接到数据库，如果文件路径存在则连接，如果不存在，则报错'''
+        path = self.sql_path
+        if os.path.exists(path) and os.path.isfile(path):
+            conn = sqlite3.connect(path)
+            print('成功连接到[{}]的数据库'.format(path))
+            return conn
+        else:
+            print('数据库不存在，请检查路径')
+
 
 
 def insert_db_string(content,value,table,conn):

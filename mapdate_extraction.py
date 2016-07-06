@@ -25,7 +25,6 @@ def mapdate_extract(path_name):
 	day = int(path_name[13:16])
 	day_begin = datetime.datetime(year,1,1)
 	day_end = str(day_begin + datetime.timedelta(days =day-1))
-	print day_end
 	month = int(day_end[5:7])
 	days = int (day_end[8:10])
 	#print ("遥感地图的时间为[{}]年".format(year)+"[{}]月".format(month)+"[{}]日".format(days))
