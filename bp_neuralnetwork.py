@@ -53,13 +53,16 @@ class NeuralNetwork:
 	#训练函数   ，X矩阵，每行是一个实例 ，y是每个实例对应的结果，learning_rate 学习率，   
 	# epochs，表示抽样的方法对神经网络进行更新的最大次数  
 	def fit(self, x, y, learning_rate=0.05, epochs=10000):  
+		print ('正在进行训练')
 		X = np.atleast_2d(x) #确定X至少是二维的数据  
 		temp = np.ones([X.shape[0], X.shape[1]+1]) #初始化矩阵  
 		temp[:, 0:-1] = X  # adding the bias unit to the input layer  
 		X = temp  
 		y = np.array(y) #把list转换成array的形式  
 
-		for k in range(epochs):  
+		for k in range(epochs):
+			if k%1000 == 0:
+				print ('迭代第{}次'.format(k))  
 			#随机选取一行，对神经网络进行更新  
 			i = np.random.randint(X.shape[0])   
 			a = [X[i]]  
@@ -92,6 +95,24 @@ class NeuralNetwork:
 			a = self.activation(np.dot(a, self.weights[l]))  
 		return a 
 
+	def test(self,X,Y,error):
+		count = 0
+		number = len(Y)
+		print ('设定可接受的数据误差为{}'.format(error))
+		for i in range(number):
+			result = self.predict(X[i])
+			print ('预测数据为%f，实际数据为%f' %(result,Y[i]))
+			if abs((Y[i]-result).sum()) < error:
+				count = count + 1
+		Correct_rate = (count/number)*100
+		print ('测试正确的数量为%d条，测试样本为%d条' %(count,number))
+		print ('测试正确率为[{}%]'.format(Correct_rate))
+		
+
+
+
+
+
 
 if __name__ == '__main__':
 	nn = NeuralNetwork(layers=[4,3,2])     # 网络结构: 2输入1输出,1个隐含层(包含2个结点)
@@ -103,17 +124,17 @@ if __name__ == '__main__':
 
 	#Y = np.array([[0, 1, 1, 1],
 	#			[0,1,1,1]])
-
+	
 	Y = np.array([[0,0],
 				  [1,1],
 				  [1,1],
 				  [1,1]])
 	nn.fit(X, Y)                    # 训练网络 
 
-	print ('w:', nn.weights)          # 调整后的权值列表
+	nn.test(X,Y,0.1)
+	#print ('w:', nn.weights)          # 调整后的权值列表
 
-	for s in X:
-		print(s, nn.predict(s)) 
+	
 
 
 

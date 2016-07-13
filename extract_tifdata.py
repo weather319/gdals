@@ -4,26 +4,26 @@ import os
 import numpy as np
 from osgeo import gdal
 
-def get_filelist(path):
+def read_tiflists(path):
 	""" 返回目录中所有 tif 图像的文件名列表,按照升序排列 """
 	filelists = [os.path.join(path,f) for f in os.listdir(path) if f.endswith('.TIF')]
 	""" 一般情况下，读取的文件列表是排序的。为了保险起见，再做一次升序排列 """
-	filelists = sorted(filelists,reverse = False)
-	return filelists
+	tiflists = sorted(filelists,reverse = False)
+	return tiflists
 
-def get_tifdata(filelists):
+def get_tifdata(tiflists):
 	""" 函数为读取一个文件夹下的列表，若遥感列表为1个tif，则读取多个文件。
 	若列表为7个tif，则分别读取1个文件中对应的通道。
 	返回一个rows*cols*bands（行*列*通道）的矩阵 """
-	if len(filelists) == 1:
+	if len(tiflists) == 1:
 			data = read_tif(file[0])
 			if (np.shape(data)[2] == 3):
 				print ('成功读取data')
 				return data
 			else:
 				print ("tif为单通道格式，检查tif文件")
-	elif len(filelists) == 7:
-		band1 = read_tif(filelists[0])
+	elif len(tiflists) == 7:
+		band1 = read_tif(tiflists[0])
 		if len(band1) == 3:
 			print ("tif为多通道格式，检查")
 		else:
@@ -31,7 +31,7 @@ def get_tifdata(filelists):
 			data = np.zeros([m,n,7])
 			data[:,:,0] = band1
 			i = 1
-			for files in filelists[1:]:
+			for files in tiflists[1:]:
 				band_i = read_tif(files)
 				data[:,:,i] = band_i
 				i = i+1
@@ -48,8 +48,8 @@ def read_tif(path):
         cols = dataset.RasterXSize
         rows = dataset.RasterYSize
         bands = dataset.RasterCount
-        print ("%s image is %s Heights,%s Weights and %s bands."\
-             %(name,cols,rows,bands))
+        #print ("%s image is %s Heights,%s Weights and %s bands."\
+             #%(name,cols,rows,bands))
         data = dataset.ReadAsArray()
         return data
     else:
@@ -77,11 +77,21 @@ def save_wkt_GT(path):
 
 
 
-import sql
 import sqlite3
+
+def get_conn(path):
+    '''连接到数据库，如果文件路径存在则连接，如果不存在，则报错'''
+    if os.path.exists(path) and os.path.isfile(path):
+        conn = sqlite3.connect(path)
+        print('成功连接到[{}]的数据库'.format(path))
+        return conn
+    else:
+        print('数据库不存在，请检查路径')
+
+
 def insert_image_db(MapId,image):
 	sql_path = "/Users/chensiye/mystuff/UI_2016.4.27/data/water_sensing.db"
-	conn = sql.get_conn(sql_path)
+	conn = get_conn(sql_path)
 	#img_blob = sqlite3.Binary(image)
 	""" 目的是把image转化成blob格式，然后保存到sql中
 		数据库表为river，值为ToUserGetRiver """
@@ -95,7 +105,7 @@ def insert_image_db(MapId,image):
 
 def retrieve_image_db(MapId):
 	sql_path = "/Users/chensiye/mystuff/UI_2016.4.27/data/water_sensing.db"
-	conn = sql.get_conn(sql_path)
+	conn = get_conn(sql_path)
 	cursor = conn.cursor()
 	""" 读取存在数据库中的blob格式图片"""
 	try:
@@ -114,7 +124,7 @@ def retrieve_image_db(MapId):
 
 if __name__ == '__main__':
 	path = '/Users/chensiye/LT51190381991204BJC00'
-	filelists = get_filelist(path)
+	filelists = read_tiflists(path)
 	data = get_tifdata(filelists)
 	wkt,GT = read_wkt_GT(filelists[0])
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-
-import px_py 
-import get_file
+import translate_coord as TC
+import EX
 import cv2
 from osgeo import gdal
 
@@ -9,8 +8,8 @@ from osgeo import gdal
 '''mcmc模拟生成数据'''
 def draw_circel(image,coordinate,wkt,GT):
 	Latitude,longitude = coordinate
-	GeoX,GeoY = px_py.WGS84_wkt(Latitude,longitude,wkt)
-	FileX,FileY = px_py.File_points(GeoX,GeoY,GT)
+	GeoX,GeoY = TC.WGS84_wkt(Latitude,longitude,wkt)
+	FileX,FileY = TC.File_points(GeoX,GeoY,GT)
 	cv2.circle(image,(FileX,FileY), 20, (0,0,255), -1)
 	return image
 
@@ -23,10 +22,10 @@ def creat_RBG(data):
 
 '''从get_file文件中导入函数，获取遥感图片的相关参数数据'''
 def draw_map(path,coordinates):
-	filelists = get_file.get_filelist(path)
-	data = get_file.get_tifdata(filelists)
+	filelists = EX.get_filelist(path)
+	data = EX.get_tifdata(filelists)
 	image_rgb = creat_RBG(data)
-	wkt,GT = get_file.read_wkt_GT(filelists[0])
+	wkt,GT = EX.read_wkt_GT(filelists[0])
 	'''得到RGB图像'''
 	for coord in coordinates:
 		image_rgb = draw_circel(image_rgb,coord,wkt,GT)
@@ -41,7 +40,7 @@ if __name__ == "__main__":
 				[120.18733,31.41117],[120.13117,31.50383],\
 				[120.18017,31.33833],[120.17062,31.24816]]
 	coords = [[120.58796963798811, 31.251981876166415]]
-	filelists = get_file.get_filelist(path)
-	get_file.save_wkt_GT(filelists[0])
+	filelists = EX.get_filelist(path)
+	EX.save_wkt_GT(filelists[0])
 	#draw_map(path,coordinates)
 	#draw_map(path,coords)

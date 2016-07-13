@@ -36,7 +36,7 @@ def shp_to_point(shp_path):
 		coords.append(points)
 	return coords
         
-def drwa_TL_coord(GT_path,WKT_path,image_path,coords):
+def draw_TL_coord(GT_path,WKT_path,image_path,coords):
 	import pickle
 	import cv2
 
@@ -108,7 +108,7 @@ if __name__ == "__main__":
 	GT_path = '/Users/chensiye/LT51190381991204BJC00/GT.pkl'
 	opencv_shape_path = '/Users/chensiye/LT51190381991204BJC00/opencv_shape.pkl'
 	coords = shp_to_point(shape_path)
-	drwa_TL_coord(GT_path,WKT_path,image_path,coords)
+	draw_TL_coord(GT_path,WKT_path,image_path,coords)
 	cut_shape(opencv_shape_path,image_path)
 	#import pickle
 	#with open('/Users/chensiye/LT51190381991204BJC00/shape_2016.pkl', 'wb') as f:

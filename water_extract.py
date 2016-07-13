@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from osgeo import gdal
 import cv2
-import get_file
+import extract_tifdata as EX
 import numpy as np
 
 def water_357(dir_path,contours):
-	filelists = get_file.get_filelist(dir_path)
-	data = get_file.get_tifdata(filelists)
+	filelists = EX.read_tiflists(dir_path)
+	data = EX.get_tifdata(filelists)
 	rgb = cv2.merge([data[:,:,2],data[:,:,3],data[:,:,4]])
 	im = cv2.merge([data[:,:,2],data[:,:,4],data[:,:,6]])
 	cv2.imwrite(dir_path+'/357.jpg',im)
